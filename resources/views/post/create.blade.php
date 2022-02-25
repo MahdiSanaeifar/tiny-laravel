@@ -12,14 +12,15 @@
     </div>
 
 
-    <form action="" method="post">
+    <form action="{{route('post.store')}}" method="post">
+        @csrf
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>
                         title:
                     </strong>
-                    <input type="text" class="form-control" placeholder="">
+                    <input type="text" class="form-control" placeholder="" name="title">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -27,15 +28,7 @@
                     <strong>
                         writer:
                     </strong>
-                    <textarea class="form-control" name="" id="" cols="30" rows="5"></textarea>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>
-                        title:
-                    </strong>
-                    <input type="text" class="form-control" placeholder="">
+                    <textarea class="form-control" name="user_id" id="" cols="30" rows="5"></textarea>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
