@@ -31,10 +31,12 @@
                 <td>{{ $post['user_id'] }}</td>
                 <td>{{ $post['started_at'] }}</td>
                 <td>
-                    <form action="" method="post">
+                    <form action="{{route('post.destroy',[$post->id])}}" method="post">
                         <a class="btn btn-info" href="{{ route('post.show', $post->id) }}">show</a>
                         <a class="btn btn-primary" href="{{ route('post.edit', $post->id) }}">edit</a>
-                        <a class="btn btn-danger" type="submit">delete</a>
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger" type="submit">delete</button>
                     </form>
                 </td>
             </tr>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -37,7 +38,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         Post::create($request->all());
-        return redirect()->route('post.index')->with('success','record created success fully');
+        return redirect()->route('post.index')->with('success','record created successfully');
     }
 
     /**
@@ -48,7 +49,13 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        return view('post.show');
+        // SELECT * FROM `posts` LEFT JOIN `users` ON `posts`.`user_id` = `users`.`id` 
+        // table('customer')->join('users', 'users.id', 'customer.user_id')->get();
+        $post = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')->where('posts.id',$id)->get();
+        // $post = Post::where('id','3')->get();
+        // $post = DB::select('SELECT * FROM `posts` LEFT JOIN `users` ON `posts`.`user_id` = `users`.`id` ');
+        $post = $post[0];
+        return view('post.show',compact('post'));
     }
 
     /**
@@ -57,9 +64,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('post.edit',compact('post'));
     }
 
     /**
@@ -71,7 +78,11 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request = $request->all();
+        unset($request['_method']);
+        unset($request['_token']);
+        Post::where('id', $id)->update($request);
+        return redirect('post')->with('success','record updated successfully');;
     }
 
     /**
@@ -80,8 +91,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('post.index')->with('success','record deleted successfully');
     }
 }
